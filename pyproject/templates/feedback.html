@@ -1,0 +1,86 @@
+{% extends "layout1.html" %}
+
+{% block content %}
+
+{% with messages=get_flashed_messages() %}
+  {% if messages %}
+    <script type="text/javascript">
+      var m={{ messages|safe }};
+      for(var i=0;i<m.length;i++)
+      {
+        alert(m[i]);
+      }
+    </script>
+  {% endif %}
+{% endwith %}
+
+<h1>Feedback Login</h1>
+<form class="form-horizontal" action="{{url_for('feedback')}}" method="POST">
+	<div class="form-group">
+      <label class="control-label col-sm-2" for="pwd">Roll Number:</label>
+      <div class="col-sm-6">
+        <input type="text" class="form-control" id="rollno" name="rollno" placeholder="Enter ur rollno">
+      </div>
+    </div>  
+
+	<div class="form-group">
+      <label class="control-label col-sm-2" for="pwd">Event Name:</label>
+      <div class="col-sm-6">
+        <select class="form-control" id="event_name" name="event_name">
+          <option>----select----</option>
+          {% for i in data %}
+            <option value="{{i[0]}}">{{i[0]}}</option>
+          {% endfor %}
+        </select>
+        <!-- <input type="text" class="form-control" id="event_name" name="event_name" placeholder="Enter ur choice"> -->
+      </div>
+    </div>
+ 
+
+    <div class="form-group">
+      <label class="control-label col-sm-2" for="pwd">Courses:</label>
+      <div class="col-sm-6">
+        <div class="radio_inline">
+          <select class="form-control" id="course" name="course">
+          <option>----select----</option>
+          
+          </select>
+          </div>
+      </div>
+    </div>    
+
+       
+
+<div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <button type="submit" class="btn btn-default">Submit</button>
+    </div>
+  </div>
+</form>
+
+<script type="text/javascript">
+    $('#event_name').change(function(){
+
+        $.ajax({
+            data:{
+                event:$("#event_name").val()
+            },
+            type:'POST',
+            url:'/process'
+        })
+        .done(function(data){
+            var d=data.course
+            var i;
+            var x=document.getElementById("course")
+            $('#course').empty().append('<option selected="selected" value="">--Select--</option>')
+            for(i=0;i<d.length;i++)
+            {
+                var option=document.createElement("option");
+                option.text=d[i];
+                x.add(option,x[1])
+            }
+        });
+        });
+      </script>
+
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+{% with messages=get_flashed_messages() %}
+  {% if messages %}
+    <script type="text/javascript">
+      var m={{ messages|safe }};
+      for(var i=0;i<m.length;i++)
+      {
+        alert(m[i]);
+      }
+    </script>
+  {% endif %}
+{% endwith %}
+
+	<h1>Event page</h1>
+	<form class="form-horizontal" action="{{url_for('newevent')}}" method="POST">
+
+	  <div class="form-group">
+	    <label class="control-label col-sm-2" for="pwd">Event name:</label>
+	    <div class="col-sm-6">
+	      <input type="text" class="form-control" id="event_name" name="event_name" placeholder="Enter ur choice">
+	    </div>
+	  </div>
+ 
+
+    <div class="form-group">
+    <label class="control-label col-sm-2" for="pwd">Courses:</label>
+    <div class="col-sm-6">
+    <div class="radio_inline">
+        <label class="checkbox-inline"><input type="checkbox" name="course" value="Python">Python</label>
+		<label class="checkbox-inline"><input type="checkbox" name="course" value="ML">ML</label>
+		<label class="checkbox-inline"><input type="checkbox" name="course" value="DL">DL</label>
+		<label class="checkbox-inline"><input type="checkbox" name="course" value="RPA">RPA</label>
+		<label class="checkbox-inline"><input type="checkbox" name="course" value="Networking">Networking</label>
+		<label class="checkbox-inline"><input type="checkbox" name="course" value="Meanstack">Meanstack</label>
+		<label class="checkbox-inline"><input type="checkbox" name="course" value="WT">WT</label>
+    </div>
+    </div>
+  </div>
+
+<div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <button type="submit" class="btn btn-default">Submit</button>
+    </div>
+  </div>
+</form>
+{% endblock %}

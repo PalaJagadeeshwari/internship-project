@@ -1,0 +1,154 @@
+{% extends "layout1.html" %}
+
+{% block content %}
+
+{% with messages=get_flashed_messages() %}
+  {% if messages %}
+    <script type="text/javascript">
+      var m={{ messages|safe }};
+      for(var i=0;i<m.length;i++)
+      {
+        alert(m[i]);
+      }
+    </script>
+  {% endif %}
+{% endwith %}
+
+
+
+<h1>Registration  page</h1>
+<form class="form-horizontal" action="{{url_for('register')}}" method="POST">
+
+  <div class="form-group">
+    <label class="control-label col-sm-2" for="email">Rollno:</label>
+    <div class="col-sm-6">
+      <input type="text" class="form-control" id="rollno" name="rollno" placeholder="Enter Rollno">
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="control-label col-sm-2" for="pwd">Name:</label>
+    <div class="col-sm-6">
+      <input type="text" class="form-control" id="name" name="name" placeholder="Enter Name">
+    </div>
+  </div>
+
+    <div class="form-group">
+    <label class="control-label col-sm-2" for="pwd">Email:</label>
+    <div class="col-sm-6">
+      <input type="email" class="form-control" id="email" name="email" placeholder="Enter Email">
+    </div>
+  </div>
+
+      <div class="form-group">
+    <label class="control-label col-sm-2" for="pwd">Phno:</label>
+    <div class="col-sm-6">
+      <input type="text" class="form-control" id="phno" name="phno" placeholder="Enter Phno">
+    </div>
+  </div>
+
+  <div class="form-group">
+ <label class="control-label col-sm-2" for="pwd">College:</label>
+ <div class="col-sm-6">
+ <select class="form-control" id="College" name="college">
+   <option value="AEC">AEC</option>
+   <option value="ACET">ACET</option>
+   <option value="ACOE">ACOE</option>
+
+ </select>
+</div>
+</div>
+
+
+  <div class="form-group">
+ <label class="control-label col-sm-2" for="pwd">Branch:</label>
+ <div class="col-sm-6">
+ <select class="form-control" id="branch" name="branch">
+   <option value="CSE">CSE</option>
+   <option value="ECE">ECE</option>
+   <option value="IT">IT</option>
+ </select>
+</div>
+</div>
+
+    <div class="form-group">
+    <label class="control-label col-sm-2" for="pwd">Section:</label>
+    <div class="col-sm-6">
+    <div class="radio_inline">
+        <label class="radio-inline"><input type="radio" name="section" value="A">A</label>
+<label class="radio-inline"><input type="radio" name="section" value="B">B</label>
+<label class="radio-inline"><input type="radio" name="section" value="C">C</label>
+      </div>
+    </div>
+  </div>
+
+    <div class="form-group">
+    <label class="control-label col-sm-2" for="pwd">Gender:</label>
+    <div class="col-sm-6">
+    <div class="radio_inline">
+        <label class="radio-inline"><input type="radio" name="gender" value="Male">Male</label>
+<label class="radio-inline"><input type="radio" name="gender" value="Female">Female</label>
+<label class="radio-inline"><input type="radio" name="gender" value="Others">Others</label>
+      </div>
+    </div>
+  </div>
+
+    <div class="form-group">
+      <label class="control-label col-sm-2" for="pwd">Event name:</label>
+      <div class="col-sm-6">
+        <select class="form-control" id="event_name" name="event_name">
+          <option>----select----</option>
+          {% for i in data %}
+            <option value="{{i[0]}}">{{i[0]}}</option>
+          {% endfor %}
+        </select>
+        <!-- <input type="text" class="form-control" id="event_name" name="event_name" placeholder="Enter ur choice"> -->
+      </div>
+    </div>
+ 
+
+    <div class="form-group">
+      <label class="control-label col-sm-2" for="pwd">Courses:</label>
+      <div class="col-sm-6">
+        <div class="radio_inline">
+          <select class="form-control" id="course" name="course">
+          <option>----select----</option>
+          
+          </select>
+          </div>
+      </div>
+    </div>     
+
+
+<div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <button type="submit" class="btn btn-default">Submit</button>
+    </div>
+  </div>
+</form>
+  
+<script type="text/javascript">
+    $('#event_name').change(function(){
+        $.ajax({
+            data:{
+                event:$("#event_name").val()
+            },
+            type:'POST',
+            url:'/process'
+        })
+        .done(function(data){
+            var d=data.course
+            var i;
+            var x=document.getElementById("course")
+            $('#course').empty().append('<option selected="selected" value="">--Select--</option>')
+            for(i=0;i<d.length;i++)
+            {
+                var option=document.createElement("option");
+                option.text=d[i];
+                x.add(option,x[1])
+            }
+        });
+        });
+      </script>
+
+{% endblock %}

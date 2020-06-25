@@ -1,0 +1,66 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+{% with messages=get_flashed_messages() %}
+  {% if messages %}
+    <script type="text/javascript">
+      var m={{ messages|safe }};
+      for(var i=0;i<m.length;i++)
+      {
+        alert(m[i]);
+      }
+    </script>
+  {% endif %}
+{% endwith %}
+
+<table id="example" class="display" style="width:100%">
+        <thead>
+            <tr>
+            	<th>Sno</th>
+                <th>event_name</th>
+                <th>Courses</th>
+                <th></th>
+                <th>Actions</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for d in data %}
+            <tr>
+                <td>{{loop.index}}</td>
+                <td>{{d[1]}}</td>
+                <td>{{d[2]}}</td>
+                <td>
+                	<form action="" method="POST">
+                	<button value={{d[0]}} name="edit">Edit</button>
+                	</form>
+                </td>
+                <td>
+                	<form action="{{url_for('regclosed')}}" method="POST">
+                	<button value={{d[0]}} name="regclosed">Registrations closed</button>
+                	</form>
+                </td>
+                <td>
+                	<form action="{{url_for('delete')}}" method="POST">
+                	<button value={{d[0]}} name="delete">Delete</button>
+                	</form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+</table>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#example').DataTable( {
+        dom: 'Bfrtip',
+        buttons: [
+            'copy', 'csv', 'excel', 'pdf', 'print'
+        ]
+    } );
+} );
+</script>
+
+{% endblock %}
+ 
